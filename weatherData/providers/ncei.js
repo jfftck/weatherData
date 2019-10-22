@@ -9,8 +9,17 @@ const boundingBox = [
   -122.219,
 ].join(',')
 
-const uri = (dataType, startDate, endDate) => 
-  `https://www.ncei.noaa.gov/access/services/data/v1?dataset=global-summary-of-the-year&stations=USW00024234&dataTypes=${dataType}&boundingBox=${boundingBox}&startDate=${startDate}&endDate=${endDate}&includeAttributes=true&format=json`
+const uri = (dataType, startDate, endDate) => [
+  'https://www.ncei.noaa.gov/access/services/data/v1?',
+  'dataset=global-summary-of-the-year&',
+  'stations=USW00024234&',
+  `dataTypes=${dataType}&`,
+  `boundingBox=${boundingBox}&`,
+  `startDate=${startDate}&`,
+  `endDate=${endDate}&`,
+  'includeAttributes=true&',
+  'format=json'
+].join('')
 
 const getWeather = (dataType, res) => {
   let endDate = new Date(new Date().getFullYear() - 1, 11, 31)
