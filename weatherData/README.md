@@ -1,4 +1,4 @@
-# Node.js Code Challenge
+# Weather Data Service for Seattle
 > A trivialized example.
 
 ## Getting Started
