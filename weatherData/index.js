@@ -11,9 +11,9 @@ app.get('/', (req, res) => res.send({
     apiVersion: '0.2'
   },
   availableDataSeries: {
-    globalPrecip: {
-      name: 'Global precipitation',
-      description: 'Past ten years global precipitation'
+    seattlePrecip: {
+      name: 'Seattle precipitation',
+      description: 'Past ten years Seattle precipitation'
     },
     flatData: {
       name: 'Flat data values',
@@ -25,7 +25,7 @@ app.get('/', (req, res) => res.send({
 /**
  * Weather data service provider.
  */
-app.get('/api/globalPrecip', ncei.getWeather)
+app.get('/api/seattlePrecip', ncei.getWeather)
 
 /**
  * Hard code some flat data to simply give variety.
