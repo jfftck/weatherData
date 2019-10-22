@@ -1,7 +1,7 @@
 const request = require('request')
 
 const isoDate = (date = new Date) => date.toISOString()
-const decYears = (date, numberOfYears) => new Date(date.getYear() - numberOfYears, date.getMonth())
+const decYears = (date, numberOfYears) => new Date(date.getFullYear() - numberOfYears, date.getMonth(), date.getDay())
 const boundingBox = [
   47.714,
   -122.439,
@@ -9,26 +9,29 @@ const boundingBox = [
   -122.219,
 ].join(',')
 
-const uri = (startDate, endDate) => 
-  `https://www.ncei.noaa.gov/access/services/data/v1?dataset=global-summary-of-the-year&stations=USW00024234&dataTypes=PRCP&boundingBox=${boundingBox}&startDate=${startDate}&endDate=${endDate}&includeAttributes=true&format=json`
+const uri = (dataType, startDate, endDate) => 
+  `https://www.ncei.noaa.gov/access/services/data/v1?dataset=global-summary-of-the-year&stations=USW00024234&dataTypes=${dataType}&boundingBox=${boundingBox}&startDate=${startDate}&endDate=${endDate}&includeAttributes=true&format=json`
 
-module.exports.getWeather = (req, res) => {
-  let endDate = new Date()
+const getWeather = (dataType, res) => {
+  let endDate = new Date(new Date().getFullYear() - 1, 11, 31)
   let startDate = decYears(endDate, 10)
-  let nceiURI = uri(isoDate(startDate), isoDate(endDate))
+  let nceiURI = uri(dataType, isoDate(startDate), isoDate(endDate))
 
   request(nceiURI, (e, r, body) => {
     if (e) {
       res.status(r.statusCode).send(body)
     } else {
       const data = JSON.parse(body)
-
-      console.log(nceiURI, body, data)
       
       res.send({
         format: 'date',
-        initialDataSet: data.map(row => [new Date(row.DATE, 0).valueOf(), row.PRCP])
+        initialDataSet: data.map(row => [new Date(row.DATE, 0).valueOf(), parseFloat(row[dataType])])
       })
     }
   })
 }
+
+module.exports.getPrecip = (req, res) => getWeather('PRCP', res)
+module.exports.getAveTemp = (req, res) => getWeather('TAVG', res)
+module.exports.getMaxTemp = (req, res) => getWeather('TMAX', res)
+module.exports.getMinTemp = (req, res) => getWeather('TMIN', res)

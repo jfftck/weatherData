@@ -15,30 +15,40 @@ app.get('/', (req, res) => res.send({
       name: 'Seattle precipitation',
       description: 'Past ten years Seattle precipitation'
     },
-    flatData: {
-      name: 'Flat data values',
-      description: 'Just the number 5'
+    seattleAvgTemp: {
+      name: 'Seattle average temperature',
+      description: 'Past ten years Seattle average temperature'
+    },
+    seattleMaxTemp: {
+      name: 'Seattle maximum temperature',
+      description: 'Past ten years Seattle maximum temperature'
+    },
+    seattleMinTemp: {
+      name: 'Seattle minimum temperature',
+      description: 'Past ten years Seattle minimum temperature'
     }
   }
 }))
 
 /**
- * Weather data service provider.
+ * Seattle precipitaion from weather data service provider.
  */
-app.get('/api/seattlePrecip', ncei.getWeather)
+app.get('/api/seattlePrecip', ncei.getPrecip)
 
 /**
- * Hard code some flat data to simply give variety.
+ * Seattle average temperature from weather data service provider.
  */
-app.get('/api/flatData', (req, res) => res.send({
-  format: 'date',
-  initialDataSet: [
-    [Date.now(), 5],
-    [Date.now() + 10, 5],
-    [Date.now() + 20, 5],
-    [Date.now() + 30, 5],
-    [Date.now() + 40, 5],
-  ]
-}))
+app.get('/api/seattleAvgTemp', ncei.getAveTemp)
+
+/**
+ * Seattle average temperature from weather data service provider.
+ */
+app.get('/api/seattleMaxTemp', ncei.getMaxTemp)
+
+/**
+ * Seattle average temperature from weather data service provider.
+ */
+app.get('/api/seattleMinTemp', ncei.getMinTemp)
+
 
 app.listen(3050, () => console.log('Listening on port 3050!'))
