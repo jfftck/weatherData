@@ -26,6 +26,10 @@ app.get('/', (req, res) => res.send({
     seattleMinTemp: {
       name: 'Seattle minimum temperature',
       description: 'Past ten years Seattle minimum temperature'
+    },
+    seattleAvgWind: {
+      name: 'Seattle average wind speed',
+      description: 'Past ten years Seattle average wind speed'
     }
   }
 }))
@@ -41,14 +45,19 @@ app.get('/api/seattlePrecip', ncei.getPrecip)
 app.get('/api/seattleAvgTemp', ncei.getAveTemp)
 
 /**
- * Seattle average temperature from weather data service provider.
+ * Seattle maximum temperature from weather data service provider.
  */
 app.get('/api/seattleMaxTemp', ncei.getMaxTemp)
 
 /**
- * Seattle average temperature from weather data service provider.
+ * Seattle minimum temperature from weather data service provider.
  */
 app.get('/api/seattleMinTemp', ncei.getMinTemp)
+
+/**
+ * Seattle average wind speed from weather data service provider.
+ */
+app.get('/api/seattleAvgWind', ncei.getAvgWind)
 
 
 app.listen(3050, () => console.log('Listening on port 3050!'))
